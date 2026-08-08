@@ -1,0 +1,24 @@
+dataset_path: data/processed/security_alerts_smoke.csv
+output_dir: artifacts/runs
+target_column: label
+id_column: alert_id
+timestamp_column: event_time
+positive_label: malicious
+allowed_labels:
+  - benign
+  - malicious
+numeric_features:
+  - src_port
+  - dst_port
+  - bytes_in
+  - bytes_out
+  - failed_logins
+  - duration_seconds
+categorical_features:
+  - source
+  - protocol
+test_size: 0.20
+validation_size: 0.20
+random_seed: 42
+max_iterations: 1000
+
