@@ -103,6 +103,11 @@ Each run creates `artifacts/runs/<run-id>/`:
 └── model.joblib
 ```
 
+The first reproducible smoke-run summary is documented in
+[`reports/experiment_results.md`](reports/experiment_results.md). It uses
+synthetic data only and must not be interpreted as real-world intrusion-
+detection performance.
+
 ## Metric Interpretation
 
 - **Macro F1:** gives equal weight to benign and malicious classes.
@@ -145,4 +150,3 @@ Do not commit proprietary telemetry, credentials, personal data, raw public data
 ## Limitations
 
 This first stage is a classical ML baseline, not an LLM system. It does not yet provide LoRA/QLoRA fine-tuning, analyst feedback, model routing, drift monitoring, or online deployment. Those belong to later portfolio stages built on this evaluation foundation.
-
