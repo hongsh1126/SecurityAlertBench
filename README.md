@@ -83,6 +83,10 @@ The adapter sorts rows chronologically, trains on the earliest 70%, reserves the
 next 15% as validation, and evaluates on the latest 15%. It compares a
 class-balanced Random Forest with histogram XGBoost using numeric flow features,
 median imputation, and precision, malicious recall, F1, ROC-AUC, and PR-AUC.
+An initial 250,000-row NF-UNSW-NB15-v2 ordered-holdout result is documented in
+`reports/nf_unsw_temporal_results.md`; because the file has no timestamp column,
+row order is used as a proxy and must not be described as strict temporal
+deployment validation.
 
 ## Input Data Contract
 
