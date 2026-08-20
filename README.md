@@ -19,6 +19,7 @@ SecurityAlertBench is a production-oriented baseline for curating, validating, s
 - Precision, recall, F1, false-positive rate, confusion matrix, and latency
 - Machine-readable experiment artifacts
 - Unit tests for high-risk data and metric logic
+- Temporal NF flow benchmark comparing Random Forest and XGBoost
 
 ## Repository Structure
 
@@ -27,7 +28,8 @@ SecurityAlertBench/
 ├── configs/baseline.yaml
 ├── scripts/
 │   ├── generate_smoke_data.py
-│   └── train_baseline.py
+│   ├── train_baseline.py
+│   └── benchmark_nf_temporal.py
 ├── src/security_alert_bench/
 │   ├── config.py
 │   ├── data.py
@@ -67,6 +69,20 @@ Run tests:
 ```powershell
 pytest -q
 ```
+
+## Public NF IDS temporal benchmark
+
+Place a licensed NF-UNSW-NB15, NF-CSE-CIC-IDS2018, or NF-ToN-IoT CSV under
+`data/raw/` (raw data remains local and is not committed). Run:
+
+```powershell
+python scripts/benchmark_nf_temporal.py --data data/raw/NF-UNSW-NB15-v2.csv --label-column Label --time-column Timestamp --output reports/nf_unsw_temporal_benchmark.json
+```
+
+The adapter sorts rows chronologically, trains on the earliest 70%, reserves the
+next 15% as validation, and evaluates on the latest 15%. It compares a
+class-balanced Random Forest with histogram XGBoost using numeric flow features,
+median imputation, and precision, malicious recall, F1, ROC-AUC, and PR-AUC.
 
 ## Input Data Contract
 
