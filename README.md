@@ -138,6 +138,25 @@ These checks prevent a high metric caused by accidental target or identity leaka
 
 Do not commit proprietary telemetry, credentials, personal data, raw public datasets, or model artifacts.
 
+## How Flow-Level Security Data Is Collected in Practice
+
+The smoke dataset in this repository is synthetic and is not a router log. In a real network, flow-level security data is typically produced through the following pipeline:
+
+```text
+Hosts / IoT devices
+        -> switches, routers, firewalls, or cloud flow-log services
+        -> NetFlow/IPFIX/sFlow exporter
+        -> flow collector
+        -> Kafka, SIEM, search index, or security data lake
+        -> curated ML features and analyst labels
+```
+
+Routers and sensors normally summarize packets into one flow record rather than storing every packet payload. A record can contain source and destination addresses and ports, protocol, flow duration, packet and byte counts, TCP flags, retransmission statistics, throughput, and an analyst or scenario-derived label. Common collection and storage technologies include NetFlow/IPFIX, AWS VPC Flow Logs, Kafka, Splunk, Elasticsearch/OpenSearch, and object storage such as S3 or an enterprise data lake.
+
+The public IDS datasets used in the companion JISA research are already aggregated NetFlow V2 records. They are not raw router event logs and they do not contain packet payloads. Their `Label` and `Attack` fields come from the documented attack scenarios or ground truth supplied with each research dataset. In an operational environment, labels are usually produced later from SIEM correlation, EDR evidence, incident investigation, or analyst feedback.
+
+This distinction matters when interpreting results: benchmark CSV metrics demonstrate reproducible model behavior on flow summaries, while production deployment additionally requires collection, retention, privacy controls, label quality, drift monitoring, and analyst feedback loops.
+
 ## Roadmap
 
 - Add a documented public security dataset adapter
